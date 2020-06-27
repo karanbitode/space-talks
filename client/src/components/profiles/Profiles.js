@@ -3,12 +3,30 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import ProfileItem from './ProfileItem';
-import { getProfiles } from '../../actions/profile';
+import {  getProfiles } from '../../actions/profile';
+// import { useHistory } from "react-router-dom";
 
-const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
+
+
+const Profiles = ({getProfiles, profile: {  profiles, loading } }) => {
+  // useEffect(() => {   
+  //   console.log('useEffect') 
+  //   getCurrentProfile();
+  // }, [getCurrentProfile]);
   useEffect(() => {
+    // getCurrentProfile();
     getProfiles();
-  }, [getProfiles]);
+  }, [ getProfiles ]);
+
+  // const history = useHistory();
+  // const goDashboard = () => history.push('dashboard');
+
+  // console.log(profile, profiles)
+  // if(!profile)
+  // {
+  //   console.log('go to dashboard');
+  //   // goDashboard();
+  // }
 
   return (
     <Fragment>
@@ -16,7 +34,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className='large text-primary'>Users</h1>
+          <h1 className='large text-primary'>Profiles of Users</h1>
           <p className='lead'>
             Browse and connect with Users
           </p>
@@ -36,6 +54,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
 };
 
 Profiles.propTypes = {
+  // getCurrentProfile: PropTypes.func.isRequired,
   getProfiles: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired
 };

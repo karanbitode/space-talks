@@ -1,5 +1,4 @@
 node_modules
-config/production.json
 config/default.json
 keys.js
 keys_dev.js

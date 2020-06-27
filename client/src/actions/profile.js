@@ -8,8 +8,11 @@ import {
   UPDATE_PROFILE,
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
-  GET_REPOS,
-  NO_REPOS
+  // GET_REPOS,
+  // NO_REPOS,
+  GET_AVATAR,
+  AVATAR_ERROR,
+  UPDATE_AVATAR
 } from './types';
 
 // Get current users profile
@@ -17,6 +20,7 @@ export const getCurrentProfile = () => async dispatch => {
   try {
     const res = await api.get('/profile/me');
 
+    // console.log('getCurrentProfile')
     dispatch({
       type: GET_PROFILE,
       payload: res.data
@@ -65,6 +69,30 @@ export const getProfileById = userId => async dispatch => {
   }
 };
 
+// Get avatar
+export const getAvatar = userId => async dispatch => {
+  try {
+    const res = await api.get(`/profile/avatar/${userId}`);
+    if(res.status === 200)
+    {
+      // console.log('Inside getAvatar in Profiles Actions, res = ', res)
+      console.log(res.status)
+      // console.log(res)
+      dispatch({
+        type: GET_AVATAR,
+        payload: res.data
+      });
+    }
+  } catch (err) {
+    console.log(err.response.status)
+    // console.log(err.response)
+    dispatch({
+      type: AVATAR_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
 // Get Github repos
 // export const getGithubRepos = username => async dispatch => {
 //   try {
@@ -97,9 +125,10 @@ export const createProfile = (
 
     dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
-    if (!edit) {
+    // if (!edit) 
+    // {
       history.push('/dashboard');
-    }
+    // }
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -109,6 +138,42 @@ export const createProfile = (
 
     dispatch({
       type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Create or update avatar
+export const editAvatar = (
+  formData,
+  history,
+  edit = false
+) => async dispatch => {
+  try {
+    dispatch(setAlert('Uploading Avatar, Plaese Wait...', 'success'));
+
+    const res = await api.put('/profile/avatar', formData);
+
+    dispatch({
+      type: GET_AVATAR,
+      payload: res.data
+    });
+
+    dispatch(setAlert(edit ? 'Avatar Updated' : 'Avatar Created', 'success'));
+
+    // if (!edit) 
+    // {
+      // history.push('/dashboard');
+    // }
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
+    dispatch({
+      type: AVATAR_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
@@ -182,6 +247,27 @@ export const deleteExperience = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Delete avatar
+export const deleteAvatar = () => async dispatch => {
+  try {
+    console.log('inside delete avatar')
+    // dispatch(setAlert('Deleting Avatar...', 'danger'));
+
+    const res = await api.delete('/profile/avatar');
+
+    dispatch({
+      type: UPDATE_AVATAR,
+      payload: res.data
+    });
+    dispatch(setAlert('Avatar Deleted', 'success'));
+  } catch (err) {
+    dispatch({
+      type: AVATAR_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }

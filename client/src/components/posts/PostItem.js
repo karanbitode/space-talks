@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { addLike, removeLike, deletePost } from '../../actions/post';
+import GetAvatar from '../layout/GetAvatar'
 
 const PostItem = ({
   addLike,
@@ -15,13 +16,15 @@ const PostItem = ({
 }) => (
   <div className='post karan-profile-item p-1 my-1'>
     <div>
-      <Link to={`/profile/${user}`}>
-        <img className='round-img' src={(avatar) ? avatar : '/default-avatar.png'} alt='' />
+      <Link to={`/profile/${user}`}>  
+        {/* className={`alert alert-${alert.alertType} karan-alert-new-position`} */}
+        {/* {(!avatar)?<img src={'/default-avatar.png'} alt='' className='round-img-default'/>:<img src={`http://localhost:5000/api/profile/avatar/${user}`} alt='' className='round-img-default'/>} */}
+        <GetAvatar avatarForId={user} avatar={avatar} ></GetAvatar>
         <h4>{name}</h4>
       </Link>
     </div>
     <div>
-      <p className='my-1'><div className='wrap'>{text}</div></p>
+      <p className='my-1 wrap'>{text}</p>
       <p className='post-date'>
         Posted on <Moment format='DD/MM/YYYY'>{date}</Moment>
       </p>
@@ -34,7 +37,7 @@ const PostItem = ({
             className='btn btn-success'
           >
             <i className='fas fa-thumbs-up' />{' '}
-            <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
+            <span>{likes.length > 0 && <span className='karan-like-count'>{likes.length}</span>}</span>
           </button>
           <button
             onClick={() => removeLike(_id)}

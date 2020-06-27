@@ -7,8 +7,12 @@ import PostItem from '../posts/PostItem';
 import CommentForm from '../post/CommentForm';
 import CommentItem from '../post/CommentItem';
 import { getPost } from '../../actions/post';
+import { getCurrentProfile } from '../../actions/profile';
 
-const Post = ({ getPost, post: { post, loading }, match }) => {
+const Post = ({ getPost, post: { post, loading }, match , getCurrentProfile, profile:{ profile }}) => {
+  useEffect(() => {    
+    getCurrentProfile();
+  }, [getCurrentProfile]);
   useEffect(() => {
     getPost(match.params.id);
   }, [getPost, match.params.id]);
@@ -21,7 +25,7 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
         Back To Posts
       </Link>
       <PostItem post={post} showActions={false} />
-      <CommentForm postId={post._id} />
+      <CommentForm postId={post._id} profile={profile} />
       <p className="lead">
         Recent Comments
       </p>
@@ -36,11 +40,14 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
 
 Post.propTypes = {
   getPost: PropTypes.func.isRequired,
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  post: state.post
+  post: state.post,
+  profile: state.profile
 });
 
-export default connect(mapStateToProps, { getPost })(Post);
+export default connect(mapStateToProps, { getPost, getCurrentProfile })(Post);

@@ -13,7 +13,7 @@ const Landing = ({ isAuthenticated }) => {
       {/* <div className='dark-overlay'> */}
         <div className='landing-inner'>
           <h1 className='x-large'>
-            <div class="glitch" data-text="SPACE_TALKS">SPACE_TALKS</div>
+            <div className="glitch" data-text="SPACE_TALKS">SPACE_TALKS</div>
             {/* <div class="glitch" data-text="TALKS">TALKS</div> */}
           </h1>
           <p className='lead'>            

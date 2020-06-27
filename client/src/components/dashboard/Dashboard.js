@@ -5,12 +5,13 @@ import { connect } from 'react-redux';
 import Experience from './Experience';
 import Education from './Education';
 import { getCurrentProfile, deleteAccount } from '../../actions/profile';
+import Spinner from '../layout/Spinner';
 
 const Dashboard = ({
   getCurrentProfile,
   deleteAccount,
   auth: { user },
-  profile: { profile }
+  profile: { profile, loading }
 }) => {
   useEffect(() => {
     getCurrentProfile();
@@ -22,7 +23,8 @@ const Dashboard = ({
       <p className="lead">
         <i className="fas fa-user" /> Welcome {user && user.name}
       </p>
-      {profile !== null  ? (
+      { (loading) ? <Spinner/> :
+      (!loading && profile !== null  ? (
         <Fragment>
           {/* <div className='dash-buttons'> */}
             <Link to={`/profile/${profile.user._id}`} className='btn btn-primary'>
@@ -30,7 +32,10 @@ const Dashboard = ({
             </Link>
             <Link to='/edit-profile' className='btn btn-primary'>
               <i className='fas fa-user-circle text-dark' /> Edit Profile
-            </Link>            
+            </Link>
+            <Link to='/edit-avatar' className='btn btn-primary'>
+              <i className='fas fa-user-circle text-dark' /> Edit Avatar
+            </Link> 
             
           {/* </div> */}
 
@@ -51,13 +56,16 @@ const Dashboard = ({
           </div>
         </Fragment>
       ) : (
+        (!loading && profile === null) ?
         <Fragment>
-          <p>You have not yet setup a profile, please add some info</p>
+          <p>You have not yet setup a profile, please Create Profile to use all Features</p>
           <Link to="/create-profile" className="btn btn-primary my-1">
             Create Profile
           </Link>
         </Fragment>
-      )}
+        : <Fragment/>
+      ))
+      }
     </Fragment>
   );
 };

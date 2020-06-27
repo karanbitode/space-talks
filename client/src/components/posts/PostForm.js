@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addPost } from '../../actions/post';
+import { addPost, msg1 } from '../../actions/post';
 
-const PostForm = ({ addPost }) => {
+const PostForm = ({ addPost, msg1, profile }) => {
   const [text, setText] = useState('');
 
   return (
@@ -13,10 +13,18 @@ const PostForm = ({ addPost }) => {
       </div>
         <form
           className='form my-1'
-          onSubmit={e => {
+          onSubmit={e =>  {
             e.preventDefault();
-            addPost({ text });
-            setText('');
+            if(profile)
+            {
+              addPost({ text });
+              setText('');
+            }
+            else
+            {
+              msg1()
+              // dispatch(setAlert('Create A Profile First', 'danger'));
+            }            
           }}
         >
         <textarea
@@ -49,10 +57,11 @@ const PostForm = ({ addPost }) => {
 };
 
 PostForm.propTypes = {
-  addPost: PropTypes.func.isRequired
+  addPost: PropTypes.func.isRequired,
+  msg1: PropTypes.func.isRequired,
 };
 
 export default connect(
   null,
-  { addPost }
+  { addPost, msg1 }
 )(PostForm);

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import GetAvatar from '../layout/GetAvatar'
 
 const ProfileTop = ({
   profile: {
@@ -8,12 +9,14 @@ const ProfileTop = ({
     location,
     website,
     social,
-    user: { name, avatar }
+    avatar,
+    user: { name, _id }
   }  
 }) => {
   return (
     <div className='profile-top bg-primary p-2 karan-profile-item'>
-      <img className='round-img my-1' src={(avatar) ? avatar : '/default-avatar.png'} alt='' />
+      {/* <img className='round-img my-1' src={(avatar) ? `http://localhost:5000/api/profile/avatar/${_id}` : '/default-avatar.png'} alt='' /> */}
+      <GetAvatar avatarForId={_id} avatar={avatar} ></GetAvatar>
       <h1 style={{ color: 'var(--primary-color)' }} className='large'>{name}</h1>
       <p style={{ marginBottom:'1rem' }} className='lead'>
         {status} {company && <span> at {company}</span>}

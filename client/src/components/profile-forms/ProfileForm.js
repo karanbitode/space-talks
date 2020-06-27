@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
 
 const initialState = {
-  avatar: '',
+  // avatar: '',
   company: '',
   website: '',
   location: '',
@@ -28,7 +28,7 @@ const ProfileForm = ({
 }) => {
   const [formData, setFormData] = useState(initialState);
 
-  const [displaySocialInputs, toggleSocialInputs] = useState(false);
+  // const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
   useEffect(() => {
     if (!profile) getCurrentProfile();
@@ -47,13 +47,13 @@ const ProfileForm = ({
   }, [loading, getCurrentProfile, profile]);
 
   const {
-    avatar,
+    // avatar,
     company,
     website,
     location,
     status,
     skills,
-    githubusername,
+    // githubusername,
     bio,
     twitter,
     facebook,
@@ -67,8 +67,19 @@ const ProfileForm = ({
 
   const onSubmit = e => {
     e.preventDefault();
+    console.log(formData)
+    // console.log(avatar)
     createProfile(formData, history, profile ? true : false);
   };
+
+  // const onChangeAvatar = e =>
+  //   setFormData({ ...formData, [e.target.name]: e.target.files[0] });
+  // const onSubmitAvatar = e => {
+  //   e.preventDefault();
+  //   // console.log(formData)
+  //   // console.log(avatar)
+  //   createProfile(formData, history, profile ? true : false);
+  // };
 
   return (
     <Fragment>
@@ -77,9 +88,9 @@ const ProfileForm = ({
         <i className="fas fa-user" /> Add some changes to your profile
       </p>
       <small>*  required field</small>
-      <form className="form" onSubmit={onSubmit}>
+
+      {/* <form className="form" onSubmit={onSubmitAvatar}>
         <div className="form-group">
-          {/* Upload Avatar : {' '} */}
           <input
             className='custom-file-input btn btn-primary my-1 '
             style
@@ -87,17 +98,32 @@ const ProfileForm = ({
             type="file"
             placeholder="Upload Avatar"
             name="avatar"
-            value={avatar}
-            onChange={onChange}
+            // value={avatar}
+            onChange={onChangeAvatar}
           />
-          {/* <small className="form-text">
-            Could be your own company or one you work for
-          </small> */}
         </div>
+        <input type="submit" value="Submit Profile Picture" className="btn btn-light my-1" />
+      </form> */}
+
+      <form className="form" onSubmit={onSubmit} >
+        
+        {/* <div className="form-group">
+          <input
+            className='custom-file-input btn btn-primary my-1 '
+            style
+            style={{content:'Upload Avatar',cursor:'pointer'}}
+            type="file"
+            placeholder="Upload Avatar"
+            name="avatar"
+            // value={avatar}
+            onChange={onChangeAvatar}
+          />
+        </div> */}
+
         <div className="form-group">
           <input
             type="text"
-            placeholder="Profession"
+            placeholder="* Profession"
             name="status"
             value={status}
             onChange={onChange}

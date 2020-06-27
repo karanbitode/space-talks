@@ -15,6 +15,7 @@ export const loadUser = () => async dispatch => {
   try {
     const res = await api.get('/auth');
 
+    dispatch(setAlert(`Welcome ${res.data.name}`, 'success'));
     dispatch({
       type: USER_LOADED,
       payload: res.data
@@ -38,6 +39,8 @@ export const register = ({ name, email, password }) => async dispatch => {
       payload: res.data
     });
     dispatch(loadUser());
+    dispatch(setAlert('User Created', 'success'));
+    dispatch(setAlert('Please Create A Profile now...', 'success'));
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -62,7 +65,8 @@ export const login = (email, password) => async dispatch => {
       type: LOGIN_SUCCESS,
       payload: res.data
     });
-
+    // console.log(res.data)
+    
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;

@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const ProfileSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'user' //refering to user id automaticaly created my mongoos
+  },
+  avatar: {
+    type: Buffer
   },
   company: {
     type: String

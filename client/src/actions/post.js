@@ -100,6 +100,14 @@ export const addPost = formData => async dispatch => {
   }
 };
 
+export const msg1 = () => async dispatch => {
+  try {
+    dispatch(setAlert('Create A Profile First', 'danger'));
+  } catch (err) {
+    console.log(err)
+  }
+};
+
 // Get post
 export const getPost = id => async dispatch => {
   try {
