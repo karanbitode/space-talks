@@ -255,7 +255,7 @@ export const deleteExperience = id => async dispatch => {
 // Delete avatar
 export const deleteAvatar = () => async dispatch => {
   try {
-    console.log('inside delete avatar')
+    // console.log('inside delete avatar')
     // dispatch(setAlert('Deleting Avatar...', 'danger'));
 
     const res = await api.delete('/profile/avatar');

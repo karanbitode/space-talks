@@ -28,9 +28,10 @@ router.post(
       const newPost = new Post({
         text: req.body.text,
         name: user.name,
-        avatar: profile.avatar,
+        // avatar: profile.avatar,
         user: req.user.id
       });
+      if(profile.avatar) newPost.avatar = 1;
 
       const post = await newPost.save();
 
@@ -169,9 +170,10 @@ router.post(
       const newComment = {
         text: req.body.text,
         name: user.name,
-        avatar: profile.avatar,
+        // avatar: profile.avatar,
         user: req.user.id
       };
+      if(profile.avatar) newComment.avatar = 1;
 
       post.comments.unshift(newComment);
 

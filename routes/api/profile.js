@@ -142,14 +142,28 @@ router.put('/avatar',auth, upload.single('avatar'),async (req, res) => {
       // console.log(buffer)
       console.log(req.user.id)
       const profile = await Profile.findOne({ user: req.user.id });
-      await Post.updateMany({ user: req.user.id }, {$set : {avatar : buffer}}, { upsert: true })
-      await Post.updateMany({ "comments.user": req.user.id }, {$set : {"comments.$[filter].avatar" : buffer}}, { upsert: true, arrayFilters: [ { "filter.user": req.user.id } ] })
-
       profile.avatar = buffer;
-
       await profile.save();
 
       res.json(profile);
+
+      const post1 = await Post.findOne({ user: req.user.id });
+      if(post1)
+      {
+        // await Post.updateMany({ user: req.user.id }, {$set : {avatar : buffer}}, { upsert: true })
+        // await Post.updateMany({ user: req.user.id }, {$set : {avatar : buffer}})
+        await Post.updateMany({ user: req.user.id }, {$set : {avatar : 1}})
+      }
+
+      const post2 = await Post.findOne({ "comments.user": req.user.id });
+      if(post2)
+      {
+        // await Post.updateMany({ "comments.user": req.user.id }, {$set : {"comments.$[filter].avatar" : buffer}}, { upsert: true, arrayFilters: [ { "filter.user": req.user.id } ] })
+        // await Post.updateMany({ "comments.user": req.user.id }, {$set : {"comments.$[filter].avatar" : buffer}}, { arrayFilters: [ { "filter.user": req.user.id } ] })
+        await Post.updateMany({ "comments.user": req.user.id }, {$set : {"comments.$[filter].avatar" : 1}}, { arrayFilters: [ { "filter.user": req.user.id } ] })
+      }
+
+      // res.json(profile);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -190,8 +204,17 @@ router.delete('/avatar',auth,async (req, res) => {
     }
     try {
       const profile = await Profile.findOneAndUpdate({ user: req.user.id },{$unset: {avatar:1}} , {multi: true}).select('-avatar');
-      await Post.updateMany({ user: req.user.id }, { $unset: {avatar:1} });
-      await Post.updateMany({ "comments.user": req.user.id },{$unset: {"comments.$[filter].avatar":1}}, { arrayFilters: [ { "filter.user": req.user.id } ] } );
+
+      const post1 = await Post.findOne({ user: req.user.id });
+      if(post1)
+      {
+        await Post.updateMany({ user: req.user.id }, { $unset: {avatar:1} });        
+      }
+      const post2 = await Post.findOne({ "comments.user": req.user.id });
+      if(post2)
+      {
+        await Post.updateMany({ "comments.user": req.user.id },{$unset: {"comments.$[filter].avatar":1}}, { arrayFilters: [ { "filter.user": req.user.id } ] } );
+      }      
       
       // await profile.save();
 

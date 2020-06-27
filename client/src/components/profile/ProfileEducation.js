@@ -7,7 +7,7 @@ const ProfileEducation = ({
   education: { school, degree, fieldofstudy, current, to, from, description }
 }) => (
   <div  style={{ color: 'var(--primary-color)'}}>
-    <h3 className="">{school}</h3>
+    <h3 className="" style={{ color: 'white' }} >{school}</h3>
     <p>
       <Moment format="DD/MM/YYYY">{moment.utc(from)}</Moment> -{' '}
       {!to ? ' Now' : <Moment format="DD/MM/YYYY">{moment.utc(to)}</Moment>}
