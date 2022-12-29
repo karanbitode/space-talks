@@ -55,7 +55,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         <h1 className='karan-text-size-logo'>
           <Link to='/'>
             {/* <i className='fas fa-code' /> */}
-            <img className='navbar-logo' src='/logo.png' alt='' ></img>
+            {/* <img className='navbar-logo' src='/logo.png' alt='' ></img> */}
             Space Talks
           </Link>
         </h1>
